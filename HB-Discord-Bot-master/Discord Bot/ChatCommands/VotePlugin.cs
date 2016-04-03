@@ -77,13 +77,15 @@ namespace Discord_Bot
         public void vote(CommandArgs e, User u, String voteName)
         {
             VoteObject obj = new VoteObject("");
+            bool found = false;
             foreach (VoteObject var in (Entries = Tools.currentInfo()))
             {
                 if(var.name == voteName)
                 {
                     vote(e, u, (int)var.ID);
+                    found = true;
                 }
-                else
+                if(!found)
                 {
                     Tools.Reply(e, "Value not found. Please enter a value from the list. Use /checkVotes to see the list.");
                 }

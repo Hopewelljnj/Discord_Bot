@@ -293,6 +293,14 @@ namespace Discord_Bot
                     await voter.EndVote(e);
                 });
 
+            group.CreateCommand("getVotes")
+                .AnyArgs()
+                .WithPurpose("Show current votes.")
+                .Do(async e =>
+                {
+                    Vote voter = new Vote();
+                    await voter.GetVotes(e);
+                });
 
             Program._commands.CommandChar = '/';
         }

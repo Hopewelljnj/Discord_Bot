@@ -34,6 +34,14 @@ namespace Discord_Bot
             
         }
 
+        public async Task GetVotes(CommandArgs e)
+        {
+            VotePlugin Entries5 = new VotePlugin();
+            string returnString = "";
+            returnString = Entries5.ToString();
+            await e.User.SendMessage(returnString);
+        }
+
         public async Task CreateVote(CommandArgs e)
         {
             User u = e.User;
