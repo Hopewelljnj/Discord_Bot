@@ -1,0 +1,21 @@
+[Error] Error with plugin or something. [Exception] Object reference not set to an instance of an object.
+[Error] Error with plugin or something. [Exception] Object reference not set to an instance of an object.
+[Error] Error with plugin or something. [Exception] Object reference not set to an instance of an object.
+[Error] Error with plugin or something. [Exception] Object reference not set to an instance of an object.
+[Error] Error with plugin or something. [Exception] Object reference not set to an instance of an object.
+[Error] Error with plugin or something. [Exception] Object reference not set to an instance of an object.
+[Error] Error with plugin or something. [Exception] Object reference not set to an instance of an object.
+[Error] Error with plugin or something. [Exception] Value cannot be null.
+Parameter name: role
+[Error] Error with plugin or something. [Exception] Value cannot be null.
+Parameter name: role
+[Error] Error with plugin or something. [Exception] Value cannot be null.
+Parameter name: role
+[Error] Error with plugin or something. [Exception] Value cannot be null.
+Parameter name: role
+[Error] Error with plugin or something. [Exception] Value cannot be null.
+Parameter name: role
+[Error] Couldn't send new user text! [Exception] Object reference not set to an instance of an object.
+[Error] Couldn't send new user text! [Exception] Object reference not set to an instance of an object.
+[Error] Couldn't send new user text! [Exception] Object reference not set to an instance of an object.
+[Error] Couldn't send new user text! [Exception] Object reference not set to an instance of an object.

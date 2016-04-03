@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Type ID = "0">
+  <Name>Hello</Name>
+  <Votes>0</Votes>
+  <UsersVoted>
+    <User ID = "0">@Hopewell#1232</User>
+    <User ID = "1">@asdasd#4545</User>
+  </UsersVoted>
+</Type>
