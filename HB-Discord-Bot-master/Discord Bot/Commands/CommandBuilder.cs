@@ -115,6 +115,12 @@ namespace Discord_Bot.Commands
             return this;
         }
 
+        public CommandBuilder IsAdmin()
+        {
+            _command.IsAdmin = true;
+            return this;
+        }
+
         public CommandBuilder DelayIsUnignorable()
         {
             _command.DelayUnignorable = true;

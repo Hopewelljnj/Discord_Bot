@@ -237,23 +237,25 @@ namespace Discord_Bot
         public static Func<CommandArgs, Task> GetCommands = async e =>
         {
             string response = $"The character to use a command right now is '{Program._commands.CommandChar}'.\n";
-            foreach (var cmd in Program._admincommands._commands)
+            foreach (var cmd in Program._commands._commands)
             {
-                if (!String.IsNullOrWhiteSpace(cmd.Purpose))
+                if (cmd.IsAdmin)
                 {
-                    string command = "";
-                    foreach (var cmdPart in cmd.Parts)
-                        command += cmdPart + ' ';
+                    if (!String.IsNullOrWhiteSpace(cmd.Purpose))
+                    {
+                        string command = "";
+                        foreach (var cmdPart in cmd.Parts)
+                            command += cmdPart + ' ';
 
-                    response += $"**{command}** - {cmd.Purpose}";
+                        response += $"**{command}** - {cmd.Purpose}";
 
-                    if (cmd.CommandDelay == null)
-                        response += "\n";
-                    else
-                        response += $" **|** Time limit: once per {cmd.CommandDelayNotify} {cmd.timeType}.\n";
+                        if (cmd.CommandDelay == null)
+                            response += "\n";
+                        else
+                            response += $" **|** Time limit: once per {cmd.CommandDelayNotify} {cmd.timeType}.\n";
+                    }
                 }
             }
-
             await e.User.SendMessage(response);
         };
     }

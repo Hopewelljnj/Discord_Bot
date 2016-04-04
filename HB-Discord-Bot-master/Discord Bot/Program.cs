@@ -50,7 +50,7 @@ namespace Discord_Bot
             _commands = new CommandsPlugin(client);
             _admincommands = new CommandsPlugin(client);
             _commands.CreateCommandGroup("", group => BuildCommands(group));
-            _admincommands.CreateCommandGroup("admin", adminGroup => BuildAdminCommands(adminGroup));
+            _commands.CreateCommandGroup("", adminGroup => BuildAdminCommands(adminGroup));
 
             //Get Programinfo
             if(File.Exists("./../LocalFiles/ProgramInfo.json"))
@@ -269,6 +269,7 @@ namespace Discord_Bot
             group.CreateCommand("createVote")
                  .ArgsAtLeast(1)
                  .WithPurpose("Submit a vote with the Name or ID.")
+                 .IsAdmin()
                  .Do(async e =>
                  {
                      Vote voter = new Vote();
@@ -287,6 +288,7 @@ namespace Discord_Bot
             group.CreateCommand("endVote")
                 .AnyArgs()
                 .WithPurpose("End the voting and show results.")
+                .IsAdmin()
                 .Do(async e =>
                 {
                     Vote voter = new Vote();
@@ -313,29 +315,36 @@ namespace Discord_Bot
             adminGroup.CreateCommand("delete")
                 .WithPurpose("Delete messages on this channel. Usage: `/admin delete {number of messages to delete}`. / req: rank perm > 0")
                 .ArgsEqual(1)
+                .IsAdmin()
                 .Do(AdminCommands.DeleteMessages);
 
             adminGroup.CreateCommand("addpermission")
                 .WithPurpose("Add number to rank. Usage: `/admin addpermission {rank name} {number}` / req: rank perm >= 1000")
+                .IsAdmin()
                 .Do(AdminCommands.AddPermissionToRank);
 
             adminGroup.CreateCommand("removePerm")
                 .WithPurpose("Remove number of rank. Usage: `/admin addpermission {rank name}` / req: rank perm >= 1000")
+                .IsAdmin()
                 .Do(AdminCommands.RemovePermissionToRank);
 
             adminGroup.CreateCommand("editServer")
                 .WithPurpose("standardrole or welcomechannel. / req: rank perm >= 1000")
+                .IsAdmin()
                 .Do(AdminCommands.EditServer);
 
             adminGroup.CreateCommand("kick")
                 .WithPurpose("Only for super admins! Usage: `/admin kick {@username}`")
+                .IsAdmin()
                 .ArgsEqual(1)
                 .Do(AdminCommands.KickUser);
             adminGroup.CreateCommand("timeout")
                 .WithPurpose("Time out someone. Usage: `/admin timeout {@username} {time in minutes}`.")
+                .IsAdmin()
                 .ArgsAtLeast(1)
                 .Do(AdminCommands.TimeoutUser);
-            adminGroup.CreateCommand("commands")
+            adminGroup.CreateCommand("admincommands")
+                .IsAdmin()
                 .IsHidden()
                 .AnyArgs()
                 .Do(AdminCommands.GetCommands);

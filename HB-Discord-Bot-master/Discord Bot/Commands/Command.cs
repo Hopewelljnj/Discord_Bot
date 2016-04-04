@@ -22,6 +22,8 @@ namespace Discord_Bot.Commands
         public string timeType { get; internal set; }
         public int? CommandDelayNotify { get; internal set; }
         public int? CommandDelay { get; internal set; }
+        public bool IsAdmin { get; internal set; }
+
         internal readonly string[] Parts;
         internal Func<CommandArgs, Task> Handler;
         internal Func<CommandArgs, Task> FailHandler;

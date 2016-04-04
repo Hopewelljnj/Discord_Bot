@@ -68,6 +68,8 @@ namespace Discord_Bot.Commands
                                 isValid = false;
                                 break;
                             }
+
+
                         }
                         if (!isValid)
                             continue;
