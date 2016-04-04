@@ -189,14 +189,26 @@ namespace Discord_Bot
             if (serverInfo.ContainsKey(e.serverId))
             {
                 var surfer = serverInfo[e.serverId];
-
-                foreach (var role in u.Roles)
+                if( u.ServerPermissions.ManageServer)
                 {
-                    if (surfer.roleImportancy.ContainsKey(role.Id.ToString()))
-                    {
-                        return surfer.roleImportancy[role.Id.ToString()];
-                    }
+                    return 9000;
                 }
+                else if(u.ServerPermissions.DeafenMembers)
+                {
+                    return 500;
+                }
+                else if(u.ServerPermissions.SendMessages)
+                {
+                    return 1;
+                }
+                else
+                {
+                    return -1;
+                }
+
+
+
+
             }
 
             //returns -1 if failed or role has no tier set.
