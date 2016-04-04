@@ -37,4 +37,3 @@ C:\Users\jacob\Desktop\Discord_Bot\HB-Discord-Bot-master\Discord Bot\bin\Debug\N
 C:\Users\jacob\Desktop\Discord_Bot\HB-Discord-Bot-master\Discord Bot\bin\Debug\Nito.AsyncEx.Concurrent.xml
 C:\Users\jacob\Desktop\Discord_Bot\HB-Discord-Bot-master\Discord Bot\bin\Debug\Nito.AsyncEx.Enlightenment.xml
 C:\Users\jacob\Desktop\Discord_Bot\HB-Discord-Bot-master\Discord Bot\bin\Debug\RestSharp.xml
-C:\Users\jacob\Desktop\Discord_Bot\HB-Discord-Bot-master\Discord Bot\obj\Debug\Discord Bot.csprojResolveAssemblyReference.cache
