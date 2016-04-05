@@ -19,9 +19,11 @@ namespace Discord_Bot
         public static Func<CommandArgs, Task> DeleteMessages = async e =>
         {
             if (!(Tools.GetPerms(e, e.User) > 1))
+            {
                 Tools.CommandSpam(e, e.User, true, true);
                 await Tools.Reply(e, "You do not have access to this command.");
-            return;
+                return;
+            }
 
             int test = Tools.CommandSpam(e, e.User, true, false);
             if (test >= 1)
