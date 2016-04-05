@@ -268,7 +268,7 @@ namespace Discord_Bot
 
             group.CreateCommand("createVote")
                  .ArgsAtLeast(1)
-                 .WithPurpose("Submit a vote with the Name or ID.")
+                 .WithPurpose("Submit a vote with the Name or ID. /createVote name1,name2,name3...")
                  .IsAdmin()
                  .Do(async e =>
                  {
@@ -289,6 +289,7 @@ namespace Discord_Bot
                 .AnyArgs()
                 .WithPurpose("End the voting and show results.")
                 .IsAdmin()
+                .IsHidden()
                 .Do(async e =>
                 {
                     Vote voter = new Vote();
@@ -298,13 +299,14 @@ namespace Discord_Bot
             group.CreateCommand("getVotes")
                 .AnyArgs()
                 .WithPurpose("Show current votes.")
+                .IsHidden()
                 .Do(async e =>
                 {
                     Vote voter = new Vote();
                     await voter.GetVotes(e);
                 });
 
-            Program._commands.CommandChar = '/';
+            _commands.CommandChar = '/';
         }
 
 

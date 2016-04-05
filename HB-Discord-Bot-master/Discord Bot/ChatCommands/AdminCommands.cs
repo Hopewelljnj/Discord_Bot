@@ -19,7 +19,15 @@ namespace Discord_Bot
         public static Func<CommandArgs, Task> DeleteMessages = async e =>
         {
             if (!(Tools.GetPerms(e, e.User) > 1))
+                Tools.CommandSpam(e, e.User, true, true);
+                await Tools.Reply(e, "You do not have access to this command.");
+            return;
+
+            int test = Tools.CommandSpam(e, e.User, true, false);
+            if (test >= 1)
+            {
                 return;
+            }
 
             if (e.Channel.IsPrivate)
                 return;
@@ -40,7 +48,11 @@ namespace Discord_Bot
         public static Func<CommandArgs, Task> AddPermissionToRank = async e =>
         {
             var userpermission = Tools.GetPerms(e, e.User);
-
+            int test = Tools.CommandSpam(e, e.User, true, false);
+            if (test >= 1)
+            {
+                return;
+            }
             if (userpermission >= 1000 || ulong.Parse((string)Program.ProgramInfo.DevID) == e.User.Id)
             {
                 var serv = Tools.GetServerInfo(e.Server.Id);
@@ -77,12 +89,17 @@ namespace Discord_Bot
                     await Tools.Reply(e, ex.Message);
                 }
             }
+            else { Tools.CommandSpam(e, e.User, true, true); await Tools.Reply(e, "You do not have access to this command."); }
         };
 
         public static Func<CommandArgs, Task> RemovePermissionToRank = async e =>
         {
             var userpermission = Tools.GetPerms(e, e.User);
-
+            int test = Tools.CommandSpam(e, e.User, true, false);
+            if (test >= 1)
+            {
+                return;
+            }
             if (userpermission >= 1000 || ulong.Parse((string)Program.ProgramInfo.DevID) == e.User.Id)
             {
                 try
@@ -110,15 +127,29 @@ namespace Discord_Bot
                     await Tools.Reply(e, ex.Message);
                 }
             }
+            else { Tools.CommandSpam(e, e.User, true, true); await Tools.Reply(e, "You do not have access to this command."); }
         };
 
         public static Func<CommandArgs, Task> EditServer = async e =>
         {
             var userpermission = Tools.GetPerms(e, e.User);
-
+            int test;
             //If not high ranked.
             if (!(userpermission >= 1000))
+            {
+                test = Tools.CommandSpam(e, e.User, true, true);
+
+                await Tools.Reply(e, "You do not have access to this command.");
+
                 return;
+            }
+
+            test = Tools.CommandSpam(e, e.User, true, false);
+            if (test >= 1)
+            {
+                return;
+            }
+
 
             //If there's only 1 word and not anymore, return.
             if (e.Args.Length < 1)
@@ -158,7 +189,11 @@ namespace Discord_Bot
         {
             if (e.Channel.IsPrivate)
                 return;
-
+            int test = Tools.CommandSpam(e, e.User, true,false);
+            if(test >= 1)
+            {
+                return;
+            }
             int userPerm = Tools.GetPerms(e, e.User);
             if (userPerm >= 100)
             {
@@ -182,6 +217,7 @@ namespace Discord_Bot
                 await Tools.Reply(e, $"just kicked {userToKick.Name}!");
                 await userToKick.Kick();
             }
+            else { Tools.CommandSpam(e, e.User, true, true); await Tools.Reply(e, "You do not have access to this command."); }
         };
 
         public static Func<CommandArgs, Task> TimeoutUser = async e =>
@@ -195,9 +231,15 @@ namespace Discord_Bot
             if (e.Channel.IsPrivate)
                 return;
 
+            int test = Tools.CommandSpam(e, e.User, true, false);
+            if (test >= 1)
+            {
+                return;
+            }
+
             int userPerms = Tools.GetPerms(e, e.User);
 
-            if (userPerms > 0)
+            if (userPerms > 1)
             {
                 User userToTimeOut = Tools.GetUser(e);
 
@@ -232,10 +274,22 @@ namespace Discord_Bot
                 string reply = await Program.timeout.Admin_TimeoutUser(e, minutes, userToTimeOut);
                 await Tools.Reply(e, reply);
             }
+            else { Tools.CommandSpam(e, e.User, true, true); await Tools.Reply(e, "You do not have access to this command."); }
         };
 
         public static Func<CommandArgs, Task> GetCommands = async e =>
         {
+            if(Tools.GetPerms(e, e.User) <= 1)
+            {
+                Tools.CommandSpam(e, e.User, true, true);
+                await Tools.Reply(e, "You do not have access to this command.");
+                return;
+            }
+            int test = Tools.CommandSpam(e, e.User, true, false);
+            if (test >= 1)
+            {
+                return;
+            }
             string response = $"The character to use a command right now is '{Program._commands.CommandChar}'.\n";
             foreach (var cmd in Program._commands._commands)
             {

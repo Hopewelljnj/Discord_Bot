@@ -44,57 +44,65 @@ namespace Discord_Bot
 
         public async Task CreateVote(CommandArgs e)
         {
-            User u = e.User;
-            string args = e.ArgText;
-            List<int> commaList = new List<int>();
+            if ((Tools.GetPerms(e, e.User)) >= 1000 || ulong.Parse((string)Program.ProgramInfo.DevID) == e.User.Id)
+            {
+                User u = e.User;
+                string args = e.ArgText;
+                List<int> commaList = new List<int>();
 
-            VoteObj.Entries.RemoveRange(0, VoteObj.Entries.Count);
-            Tools.update(VoteObj.getEntries());
+                VoteObj.Entries.RemoveRange(0, VoteObj.Entries.Count);
+                Tools.update(VoteObj.getEntries());
 
-            int index = 0;
+                int index = 0;
 
-            string[] Names = args.Split(',');
-                
-                foreach(string Name in Names)
+                string[] Names = args.Split(',');
+
+                foreach (string Name in Names)
                 {
                     Name.Trim();
                     VoteObj.add(Name);
                 }
-                
+
                 await Tools.Reply(e, VoteObj.ToString());
                 int c = 3;
-            
+            }
+            else { await Tools.Reply(e, "You do not have permission."); }
+
 
         }
 
         public async Task EndVote(CommandArgs e)
         {
-            uint winnerVotes = 0;
-            string winner = "";
-            String reply = "";
-            bool Tie = false;
-            VoteObj.setEntries(Tools.currentInfo());
-            foreach(VoteObject obj in VoteObj.getEntries())
+            if ((Tools.GetPerms(e, e.User)) >= 1000 || ulong.Parse((string)Program.ProgramInfo.DevID) == e.User.Id)
             {
-                if(obj.Vote == winnerVotes)
+                uint winnerVotes = 0;
+                string winner = "";
+                String reply = "";
+                bool Tie = false;
+                VoteObj.setEntries(Tools.currentInfo());
+                foreach (VoteObject obj in VoteObj.getEntries())
                 {
-                    winner += " , " + obj.name;
-                    Tie = true;
+                    if (obj.Vote == winnerVotes)
+                    {
+                        winner += " , " + obj.name;
+                        Tie = true;
+                    }
+                    else if (obj.Vote > winnerVotes)
+                    {
+                        winnerVotes = obj.Vote;
+                        winner = obj.name;
+                        if (Tie) { Tie = false; }
+                    }
                 }
-                else if(obj.Vote > winnerVotes)
-                {
-                    winnerVotes = obj.Vote;
-                    winner = obj.name;
-                    if (Tie) { Tie = false; }
-                }
+                if (Tie) { reply = "The winners were " + winner + " with " + winnerVotes + " votes!"; }
+                else { reply = "The winner was " + winner + " with " + winnerVotes + " votes!"; }
+
+                await Tools.Reply(e, ("The voting has ended. Here are your results:\n" + VoteObj.ToString() + reply));
+
+                VoteObj.Entries.RemoveRange(0, VoteObj.Entries.Count);
+                Tools.update(VoteObj.getEntries());
             }
-            if (Tie) { reply = "The winners were " + winner + " with " + winnerVotes + " votes!"; }
-            else { reply = "The winner was " + winner + " with " + winnerVotes + " votes!"; }
-
-            await Tools.Reply(e, ("The voting has ended. Here are your results:\n" + VoteObj.ToString() + reply));
-
-            VoteObj.Entries.RemoveRange(0, VoteObj.Entries.Count);
-            Tools.update(VoteObj.getEntries());
+            else { await Tools.Reply(e, "You do not have permission."); }
 
         }
 

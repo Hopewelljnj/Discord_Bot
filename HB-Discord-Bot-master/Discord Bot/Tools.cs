@@ -288,6 +288,75 @@ namespace Discord_Bot
             catch (Exception) { }
         }
 
+        public static int CommandSpam(CommandArgs e, User u, bool IsAdmin, bool Add)
+        {
+            uint[] SpamPoints = new uint[3];
+            if (IsAdmin) { SpamPoints[0] = 0; SpamPoints[1] = 1; SpamPoints[2] = 2; }
+            else { SpamPoints[0] = 0; SpamPoints[1] = 2; SpamPoints[2] = 5; }
+
+            if(Tools.GetPerms(e, u) > 1)
+            {
+                return 1;
+            }
+            
+
+            string PathToSpammers = "../LocalFiles/Spammers.json";
+            string json = Tools.ReadFile(PathToSpammers);
+            int returnint = -1;
+            string[] Users = json.Split('}');
+            if (Users.Contains(u.Id.ToString()))
+            {
+                foreach (string user in Users)
+                {
+                    user.Replace("{", "");
+                    string[] parameters = user.Split(',');
+                    if (parameters.Length != 2)
+                    {
+                        return -1;
+                    }
+                    ulong userID;
+                    uint numberSpams;
+                    if (!uint.TryParse(parameters[1], out numberSpams) || !ulong.TryParse(parameters[0], out userID))
+                    {
+                        Console.WriteLine("Error with parameters in CommandSpam testing.");
+                        return -1;
+                    }
+                    if (userID != u.Id)
+                    {
+
+                    }
+                    else if (numberSpams == SpamPoints[1])
+                    {
+                        numberSpams = 2;
+                        Tools.Reply(e, "Please stop attempting admin commands. Last warning.");
+                        Tools.SaveFile(json, PathToSpammers, false);
+                    }
+                    else if (numberSpams >= SpamPoints[2])
+                    {
+                        Tools.Reply(e, "Too many spams. Message sent and no reply unavailable for 10 minutes.");
+                        Tools.SaveFile(json, PathToSpammers, false);
+                        returnint = 1;
+                    }
+                    if (Add)
+                    {
+                        json += "{" + userID + "," + numberSpams + "}";
+                    }
+
+                }
+            }
+            else
+            {
+                if (Add)
+                {
+                    json = json + "{" + u.Id.ToString() + ",1}";
+                    Tools.SaveFile(json, PathToSpammers, false);
+                }
+            }
+            return returnint;
+        
+        }
+
+
         public static void update(List<VoteObject> Entries)
         {
             string PathToVotes = "../LocalFiles/Votes.json";
