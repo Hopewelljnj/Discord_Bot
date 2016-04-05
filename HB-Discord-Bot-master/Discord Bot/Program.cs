@@ -315,33 +315,33 @@ namespace Discord_Bot
             adminGroup.DefaultMinPermissions(0);
             
             adminGroup.CreateCommand("delete")
-                .WithPurpose("Delete messages on this channel. Usage: `/admin delete {number of messages to delete}`. / req: rank perm > 0")
+                .WithPurpose("Delete messages on this channel. Usage: /delete {number of messages to delete}`. / req: rank perm Admin")
                 .ArgsEqual(1)
                 .IsAdmin()
                 .Do(AdminCommands.DeleteMessages);
 
             adminGroup.CreateCommand("addpermission")
-                .WithPurpose("Add number to rank. Usage: `/admin addpermission {rank name} {number}` / req: rank perm >= 1000")
+                .WithPurpose("Add number to rank. Usage: /addpermission {rank name} {number}` / req: rank perm = owner")
                 .IsAdmin()
                 .Do(AdminCommands.AddPermissionToRank);
 
             adminGroup.CreateCommand("removePerm")
-                .WithPurpose("Remove number of rank. Usage: `/admin addpermission {rank name}` / req: rank perm >= 1000")
+                .WithPurpose("Remove number of rank. Usage: /removePerm {rank name}` / req: rank perm = owner")
                 .IsAdmin()
                 .Do(AdminCommands.RemovePermissionToRank);
 
             adminGroup.CreateCommand("editServer")
-                .WithPurpose("standardrole or welcomechannel. / req: rank perm >= 1000")
+                .WithPurpose("standardrole or welcomechannel. / req: rank perm Owner")
                 .IsAdmin()
                 .Do(AdminCommands.EditServer);
 
             adminGroup.CreateCommand("kick")
-                .WithPurpose("Only for super admins! Usage: `/admin kick {@username}`")
+                .WithPurpose("Kicks specified user. Usage: /kick {@username} / req: rank perm = owner")
                 .IsAdmin()
                 .ArgsEqual(1)
                 .Do(AdminCommands.KickUser);
             adminGroup.CreateCommand("timeout")
-                .WithPurpose("Time out someone. Usage: `/admin timeout {@username} {time in minutes}`.")
+                .WithPurpose("Time out someone. Usage: /timeout {@username} {time in minutes}`. / req: rank perm Admin")
                 .IsAdmin()
                 .ArgsAtLeast(1)
                 .Do(AdminCommands.TimeoutUser);
