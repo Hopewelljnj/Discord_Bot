@@ -10,7 +10,6 @@ using System.Net.Http;
 using System.Collections.Specialized;
 using System.Xml.Linq;
 using System.Timers;
-
 using System.IO;
 using System.Linq;
 
@@ -30,6 +29,9 @@ namespace Discord_Bot
         public static CommandsPlugin _commands, _admincommands;
         public static Timeout timeout;
         public static dynamic ProgramInfo = null;
+        public static Timer spamTimer;
+
+        
 
         public static DiscordClient Client
         {
@@ -45,21 +47,30 @@ namespace Discord_Bot
         {
             var client = new DiscordClient();
             _client = client;
-            _client.Log.Message += (s, e) => Console.WriteLine($"[{e.Severity}] {e.Source}: {e.Message}");
-            
+            _client.Log.Message += (s, e) => Console.WriteLine($"[{e.Severity}] {e.Source}: {e.Message}  @" + DateTime.Now.ToString("HH:mm:ss tt"));
+
             _commands = new CommandsPlugin(client);
             _admincommands = new CommandsPlugin(client);
             _commands.CreateCommandGroup("", group => BuildCommands(group));
             _commands.CreateCommandGroup("", adminGroup => BuildAdminCommands(adminGroup));
 
+            spamTimer = new Timer(600000);
+            spamTimer.Elapsed += new ElapsedEventHandler(resetSpam);
+            spamTimer.Start();
+
+
+
+            Console.WriteLine("Timer started. @" + DateTime.Now.ToString("HH:mm:ss tt"));
+
+
             //Get Programinfo
-            if(File.Exists("./../LocalFiles/ProgramInfo.json"))
+            if (File.Exists("./../LocalFiles/ProgramInfo.json"))
             {
                 using (StreamReader sr = new StreamReader("./../LocalFiles/ProgramInfo.json"))
                 {
                     var jsonfile = sr.ReadToEnd();
                     ProgramInfo = JsonConvert.DeserializeObject(jsonfile);
-                    Console.WriteLine(ProgramInfo.username);
+                    Console.WriteLine(ProgramInfo.username + "@" + DateTime.Now.ToString("HH:mm:SS tt"));
                 }
             }
 
@@ -122,6 +133,21 @@ namespace Discord_Bot
             }
         }
 
+
+
+        public static void resetSpam(object source, ElapsedEventArgs e)
+        {
+            string PathToSpammers = "../LocalFiles/Spammers.json";
+            string PathToBackup = "../LocalFiles/BackupofSpammers.json";
+
+            string json = Tools.ReadFile(PathToBackup) + "/n" + Tools.ReadFile(PathToSpammers);
+            string blank = "";
+
+            Tools.SaveFile(json, PathToBackup, false);
+            Tools.SaveFile(blank, PathToSpammers, false);
+
+            Console.WriteLine("Reset Spam List. @" + DateTime.Now.ToString("HH:mm:ss tt"));
+        }
 
 
         #region New Users
@@ -268,7 +294,7 @@ namespace Discord_Bot
 
             group.CreateCommand("createVote")
                  .ArgsAtLeast(1)
-                 .WithPurpose("Submit a vote with the Name or ID. /createVote name1,name2,name3...")
+                 .WithPurpose("Submit a vote with the Name or ID. Usage `/createVote name1,name2,name3...` /req rank Admin")
                  .IsAdmin()
                  .Do(async e =>
                  {
@@ -278,7 +304,7 @@ namespace Discord_Bot
 
             group.CreateCommand("vote")
                 .ArgsAtLeast(1)
-                .WithPurpose("Submit a vote. Format /vote Id or Name")
+                .WithPurpose("Submit a vote. Usage `/vote Id` or Name")
                 .Do(async e =>
                 {
                     Vote voter = new Vote();
@@ -287,7 +313,7 @@ namespace Discord_Bot
 
             group.CreateCommand("endVote")
                 .AnyArgs()
-                .WithPurpose("End the voting and show results.")
+                .WithPurpose("End the voting and show results. Usage `/endVote` /req rank Admin")
                 .IsAdmin()
                 .IsHidden()
                 .Do(async e =>
@@ -298,7 +324,7 @@ namespace Discord_Bot
 
             group.CreateCommand("getVotes")
                 .AnyArgs()
-                .WithPurpose("Show current votes.")
+                .WithPurpose("Show current votes. Usage `/getVotes` ")
                 .IsHidden()
                 .Do(async e =>
                 {
@@ -315,33 +341,33 @@ namespace Discord_Bot
             adminGroup.DefaultMinPermissions(0);
             
             adminGroup.CreateCommand("delete")
-                .WithPurpose("Delete messages on this channel. Usage: /delete {number of messages to delete}`. / req: rank perm Admin")
+                .WithPurpose("Delete messages on this channel. Usage `/delete {number of messages to delete}`. / req: rank Admin")
                 .ArgsEqual(1)
                 .IsAdmin()
                 .Do(AdminCommands.DeleteMessages);
 
             adminGroup.CreateCommand("addpermission")
-                .WithPurpose("Add number to rank. Usage: /addpermission {rank name} {number}` / req: rank perm = owner")
+                .WithPurpose("Add number to rank. Usage: `/addpermission {rank name} {number}` / req: rank Owner")
                 .IsAdmin()
                 .Do(AdminCommands.AddPermissionToRank);
 
             adminGroup.CreateCommand("removePerm")
-                .WithPurpose("Remove number of rank. Usage: /removePerm {rank name}` / req: rank perm = owner")
+                .WithPurpose("Remove number of rank. Usage: `/removePerm {rank name}` / req: rank Owner")
                 .IsAdmin()
                 .Do(AdminCommands.RemovePermissionToRank);
 
             adminGroup.CreateCommand("editServer")
-                .WithPurpose("standardrole or welcomechannel. / req: rank perm Owner")
+                .WithPurpose("Edits initial channel or initial role. Usage: `/editServer standardrole {role}` /n `/editServer welcomechannel {channel name}`  / req: rank Owner")
                 .IsAdmin()
                 .Do(AdminCommands.EditServer);
 
             adminGroup.CreateCommand("kick")
-                .WithPurpose("Kicks specified user. Usage: /kick {@username} / req: rank perm = owner")
+                .WithPurpose("Kicks specified user. Usage: `/kick {@username}` / req: rank Owner")
                 .IsAdmin()
                 .ArgsEqual(1)
                 .Do(AdminCommands.KickUser);
             adminGroup.CreateCommand("timeout")
-                .WithPurpose("Time out someone. Usage: /timeout {@username} {time in minutes}`. / req: rank perm Admin")
+                .WithPurpose("Time out someone. Usage: `/timeout {@username}` {time in minutes}`. / req: rank Admin")
                 .IsAdmin()
                 .ArgsAtLeast(1)
                 .Do(AdminCommands.TimeoutUser);

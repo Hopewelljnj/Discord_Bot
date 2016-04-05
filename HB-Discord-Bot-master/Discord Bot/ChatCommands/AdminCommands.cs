@@ -171,11 +171,15 @@ namespace Discord_Bot
             switch (toEdit)
             {
                 case "standardrole":
+                    try { var tester = e.Server.FindRoles(args).FirstOrDefault(); }
+                    catch (Exception E) { await Tools.Reply(e, "Server does not exist."); return; }
                     var role = e.Server.FindRoles(args).FirstOrDefault();
                     info.standardRole = role.Id.ToString();
                     await Tools.Reply(e, $"{role.Name} is now the role that new users will automatically be upon joining the server!");
                     break;
                 case "welcomechannel":
+                    try { var tester = e.Server.FindChannels(args, ChannelType.Text).FirstOrDefault(); }
+                    catch(Exception E) { await Tools.Reply(e, "Server does not exist."); return; }
                     var channel = e.Server.FindChannels(args, ChannelType.Text).FirstOrDefault();
                     info.welcomingChannel = channel.Id;
                     await Tools.Reply(e, $"{channel.Name} is now the channel that people will be welcomed to upon joining the server!");
@@ -267,7 +271,7 @@ namespace Discord_Bot
                 }
                 catch (FormatException)
                 {
-                    await Tools.Reply(e, "command was not in the right format. Usage: `/admin timeout {username} {time in minutes}`");
+                    await Tools.Reply(e, "command was not in the right format. Usage: `/timeout {username} {time in minutes}`");
                     return;
                 }
 
@@ -286,7 +290,7 @@ namespace Discord_Bot
                 return;
             }
             int test = Tools.CommandSpam(e, e.User, true, false);
-            if (test >= 1)
+            if (test > 1)
             {
                 return;
             }

@@ -179,7 +179,7 @@ namespace Discord_Bot
             }
             catch (Exception e)
             {
-                Console.WriteLine($"[EXCEPTION] Couldn't get user! {e.Message}");
+                Console.WriteLine($"[EXCEPTION] Couldn't get user! {e.Message} @" + DateTime.Now.ToString("HH:mm:ss tt"));
                 return null;
             }
         }
@@ -192,6 +192,10 @@ namespace Discord_Bot
                 if( u.ServerPermissions.ManageServer)
                 {
                     return 9000;
+                }
+                else if(ulong.Parse((string)Program.ProgramInfo.DevID) == e.User.Id)
+                {
+                    return 3000;
                 }
                 else if(u.ServerPermissions.DeafenMembers)
                 {
@@ -290,13 +294,13 @@ namespace Discord_Bot
 
         public static int CommandSpam(CommandArgs e, User u, bool IsAdmin, bool Add)
         {
-            uint[] SpamPoints = new uint[3];
-            if (IsAdmin) { SpamPoints[0] = 0; SpamPoints[1] = 1; SpamPoints[2] = 2; }
-            else { SpamPoints[0] = 0; SpamPoints[1] = 2; SpamPoints[2] = 5; }
+            uint Point = 0;
+            if (IsAdmin) { Point = 2; }
+            else { Point = 5; }
 
-            if(Tools.GetPerms(e, u) > 1)
+            if(Tools.GetPerms(e, u) > 1 && !IsAdmin)
             {
-                return 1;
+                return 0;
             }
             
 
@@ -318,20 +322,20 @@ namespace Discord_Bot
                     uint numberSpams;
                     if (!uint.TryParse(parameters[1], out numberSpams) || !ulong.TryParse(parameters[0], out userID))
                     {
-                        Console.WriteLine("Error with parameters in CommandSpam testing.");
+                        Console.WriteLine("Error with parameters in CommandSpam testing. @" + DateTime.Now.ToString("HH:mm:ss tt"));
                         return -1;
                     }
                     if (userID != u.Id)
                     {
 
                     }
-                    else if (numberSpams == SpamPoints[1])
+                    else if (numberSpams < Point)
                     {
-                        numberSpams = 2;
+                        numberSpams++;
                         Tools.Reply(e, "Please stop attempting admin commands. Last warning.");
                         Tools.SaveFile(json, PathToSpammers, false);
                     }
-                    else if (numberSpams >= SpamPoints[2])
+                    else if (numberSpams >= Point)
                     {
                         Tools.Reply(e, "Too many spams. Message sent and no reply unavailable for 10 minutes.");
                         Tools.SaveFile(json, PathToSpammers, false);
@@ -352,7 +356,8 @@ namespace Discord_Bot
                     Tools.SaveFile(json, PathToSpammers, false);
                 }
             }
-            return returnint;
+            if (Add) { return returnint; }
+            else { return 0; }
         
         }
 
@@ -398,12 +403,7 @@ namespace Discord_Bot
 
             string json = Tools.ReadFile(PathToVotes);
 
-            /*List<VoteObject> objects = new List<VoteObject>();
-            VoteObject vO = new VoteObject("Hi");
-            vO.ID = 0;
-            objects.Add(vO);
-            int c = 0;
-            return objects;*/
+
 
             return Deserialize(json);
 

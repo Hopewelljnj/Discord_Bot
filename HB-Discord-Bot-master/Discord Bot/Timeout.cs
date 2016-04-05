@@ -63,7 +63,7 @@ namespace Discord_Bot
                 info.timer.Elapsed += async (s, te) =>
                 {
                     users.Remove(info);
-                    Console.WriteLine($"{e.User}'s time out has been removed!");
+                    Console.WriteLine($"{e.User}'s time out has been removed! @" + DateTime.Now.ToString("HH:mm:ss tt"));
                     await user.Edit(null, null, null, info.roles);
                     info.timer = null;
                 };
@@ -77,7 +77,7 @@ namespace Discord_Bot
                 if (minutes <= 0)
                 {
                     users.Remove(info);
-                    Console.WriteLine($"{e.User}'s time out has been removed!");
+                    Console.WriteLine($"{e.User}'s time out has been removed! @" + DateTime.Now.ToString("HH:mm:ss tt"));
                     await user.Edit(null, null, user.VoiceChannel, info.roles);
                     return 3;//Timeout removed
                 }

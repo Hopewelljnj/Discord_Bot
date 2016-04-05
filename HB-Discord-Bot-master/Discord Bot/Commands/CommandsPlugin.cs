@@ -20,6 +20,8 @@ namespace Discord_Bot.Commands
             _getPermissions = getPermissions;
             _commands = new List<Command>();
 
+
+
             CommandChar = '/';
             UseCommandChar = true;
 
@@ -250,7 +252,7 @@ namespace Discord_Bot.Commands
                         }
 
                         //Run Command
-                        Console.WriteLine($"[CommandEvent] {e.User.Name} used command: {String.Join("", eventArgs.Command.Parts)}.");
+                        Console.WriteLine($"[CommandEvent] {e.User.Name} used command: {String.Join("", eventArgs.Command.Parts)}. @{DateTime.Now.ToString("HH:mm:ss tt")}");
                         RaiseRanCommand(eventArgs);
                         try
                         {
