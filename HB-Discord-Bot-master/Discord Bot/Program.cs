@@ -296,6 +296,7 @@ namespace Discord_Bot
                  .ArgsAtLeast(1)
                  .WithPurpose("Submit a vote with the Name or ID. Usage `/createVote name1,name2,name3...` /req rank Admin")
                  .IsAdmin()
+                 .IsHidden()
                  .Do(async e =>
                  {
                      Vote voter = new Vote();
@@ -357,7 +358,7 @@ namespace Discord_Bot
                 .Do(AdminCommands.RemovePermissionToRank);
 
             adminGroup.CreateCommand("editServer")
-                .WithPurpose("Edits initial channel or initial role. Usage: `/editServer standardrole {role}` /n `/editServer welcomechannel {channel name}`  / req: rank Owner")
+                .WithPurpose("Edits initial channel or initial role. Usage: `/editServer standardrole {role}` \n `/editServer welcomechannel {channel name}`  / req: rank Owner")
                 .IsAdmin()
                 .Do(AdminCommands.EditServer);
 
@@ -376,6 +377,11 @@ namespace Discord_Bot
                 .IsHidden()
                 .AnyArgs()
                 .Do(AdminCommands.GetCommands);
+            adminGroup.CreateCommand("pause")
+                .IsAdmin()
+                .WithPurpose("Pause bot if it is acting wrongly. Will stop bot until Hopewell can access the server to reset bot.\n Please type a reason after the command so that the issue can be looked into. \n Usage: `/pause {reason}` /req: rank Admin")
+                .ArgsAtLeast(1)
+                .Do(AdminCommands.PauseBot);
         }
         #endregion
         

@@ -32,6 +32,7 @@ namespace Discord_Bot
                     VoteObj.vote(e, u, args);
                 }
             
+            
         }
 
         public async Task GetVotes(CommandArgs e)
@@ -63,7 +64,8 @@ namespace Discord_Bot
                     VoteObj.add(Name);
                 }
 
-                await Tools.Reply(e, VoteObj.ToString());
+                await Tools.Reply(e, VoteObj.ToString() + "\nVote using /vote and the ID or name of your choice." ,false);
+       
                 int c = 3;
             }
             else { await Tools.Reply(e, "You do not have permission."); }

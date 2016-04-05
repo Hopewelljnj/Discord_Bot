@@ -316,5 +316,21 @@ namespace Discord_Bot
             }
             await e.User.SendMessage(response);
         };
+
+        public static Func<CommandArgs, Task> PauseBot = async e =>
+        {
+            if (Tools.GetPerms(e, e.User) >= 100)
+            {
+                string PathToLogFile = "../LocalFiles/Log.txt";
+                await Tools.Reply(e, "Pausing");
+                string text = DateTime.Now.ToString("HH:mm:ss tt") + " : User : " + e.User.ToString() + " : " + e.ArgText;
+                Tools.SaveFile(text, PathToLogFile , true);
+                Console.WriteLine(text);
+                Console.ReadLine();
+
+            }
+        };
+
+
     }
 }
