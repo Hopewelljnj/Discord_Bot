@@ -65,7 +65,7 @@ namespace Discord_Bot
         public static async Task WelcomeUser (DiscordClient client, User u, ulong ServerID)
         {
             //Welcoming people.
-            string[] replies = { "Holy shit, a new user! Welcome {0}!", "Ew, a newfag! Get out {0}!", "Someone new? Awesome! Welcome {0}!", "Everyone, welcome {0}! He's new here!", "Oh, how nice, someone new! Hello {0}!", "My god! A new person! We don't need you, just leave {0}.", "{0}, it might be better if you'd leave. You'd just be a newfag. Well, welcome anyway!" };
+            string[] replies = { "Holy shit, a new user! Welcome {0}!", "Someone new? Awesome! Welcome {0}!", "Everyone, welcome {0}! He's new here!", "Oh, how nice, someone new! Hello {0}!" };
             string reply = String.Format(replies[Tools.random.Next(replies.Length)], u.Mention);
             Channel channelToAnswerIn =  client.GetChannel(Tools.GetServerInfo(ServerID).welcomingChannel);
 
