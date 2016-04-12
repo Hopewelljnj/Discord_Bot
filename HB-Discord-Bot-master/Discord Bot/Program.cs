@@ -333,6 +333,17 @@ namespace Discord_Bot
                     await voter.GetVotes(e);
                 });
 
+            group.CreateCommand("quote")
+                .ArgsAtLeast(1)
+                .WithPurpose("Return a saved quote. Usage `/quote #`")
+                .Do(Quoting.quote);
+
+            group.CreateCommand("quoteList")
+                .AnyArgs()
+                .WithPurpose("Direct messages a list of current quotes. Usage `/quoteList`")
+                .IsHidden()
+                .Do(Quoting.getQuotes);
+
             _commands.CommandChar = '/';
         }
 
@@ -382,6 +393,20 @@ namespace Discord_Bot
                 .WithPurpose("Pause bot if it is acting wrongly. Will stop bot until Hopewell can access the server to reset bot.\n Please type a reason after the command so that the issue can be looked into. \n Usage: `/pause {reason}` /req: rank Admin")
                 .ArgsAtLeast(1)
                 .Do(AdminCommands.PauseBot);
+
+            adminGroup.CreateCommand("createQuote")
+                .IsAdmin()
+                .WithPurpose("Add a quote to the saved list. Usage : `/createQuote quoted text @User")
+                .IsHidden()
+                .ArgsAtLeast(1)
+                .Do(Quoting.createQuote);
+
+            adminGroup.CreateCommand("deleteQuote")
+                .IsAdmin()
+                .IsHidden()
+                .WithPurpose("Remove a quote from the saved list. Usage : /deleteQuote #")
+                .ArgsAtLeast(1)
+                .Do(Quoting.deleteQuote);
         }
         #endregion
         

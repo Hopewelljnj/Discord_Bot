@@ -174,14 +174,14 @@ namespace Discord_Bot
             {
                 case "standardrole":
                     try { var tester = e.Server.FindRoles(args).FirstOrDefault(); }
-                    catch (Exception E) { await Tools.Reply(e, "Server does not exist."); return; }
+                    catch (Exception E) { await Tools.Reply(e, "Role does not exist." + E.ToString()); return; }
                     var role = e.Server.FindRoles(args).FirstOrDefault();
                     info.standardRole = role.Id.ToString();
                     await Tools.Reply(e, $"{role.Name} is now the role that new users will automatically be upon joining the server!");
                     break;
                 case "welcomechannel":
                     try { var tester = e.Server.FindChannels(args, ChannelType.Text).FirstOrDefault(); }
-                    catch(Exception E) { await Tools.Reply(e, "Server does not exist."); return; }
+                    catch(Exception E) { await Tools.Reply(e, "Channel does not exist." + E.ToString()); return; }
                     var channel = e.Server.FindChannels(args, ChannelType.Text).FirstOrDefault();
                     info.welcomingChannel = channel.Id;
                     await Tools.Reply(e, $"{channel.Name} is now the channel that people will be welcomed to upon joining the server!");

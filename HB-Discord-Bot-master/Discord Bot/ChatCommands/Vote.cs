@@ -54,8 +54,6 @@ namespace Discord_Bot
                 VoteObj.Entries.RemoveRange(0, VoteObj.Entries.Count);
                 Tools.update(VoteObj.getEntries());
 
-                int index = 0;
-
                 string[] Names = args.Split(',');
 
                 foreach (string Name in Names)
@@ -66,7 +64,6 @@ namespace Discord_Bot
 
                 await Tools.Reply(e, VoteObj.ToString() + "\nVote using /vote and the ID or name of your choice." ,false);
        
-                int c = 3;
             }
             else { await Tools.Reply(e, "You do not have permission."); }
 

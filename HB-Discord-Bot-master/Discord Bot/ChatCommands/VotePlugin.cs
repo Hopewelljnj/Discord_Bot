@@ -18,8 +18,6 @@ namespace Discord_Bot
         uint tag = 0;
         
         public List<VoteObject> Entries = new List<VoteObject>();
-
-        int c = 0;
         
         public List<VoteObject> getEntries()
         {
@@ -112,7 +110,7 @@ namespace Discord_Bot
                     voteObj.changeVote(1);
 
                     voteObj.changeUser(u,true);
-                    int z = 0;
+                  
                     
                     Entries2.RemoveAt((i));
                     Entries2.Add(voteObj);
@@ -124,7 +122,7 @@ namespace Discord_Bot
                     break;
                 }
                 i++;
-                int q = 0;
+               
             }
             if (!used) { Tools.Reply(e, "Value not found. Please enter a value from the list. Use /checkVotes to see the list."); }
             else { Tools.Reply(e, "Your vote has been entered."); }

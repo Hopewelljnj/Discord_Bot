@@ -94,8 +94,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChatCommands\AdminCommands.cs" />
-    <Compile Include="ChatCommands\Info.cs" />
     <Compile Include="ChatCommands\Information.cs" />
+    <Compile Include="ChatCommands\Quoting.cs" />
     <Compile Include="ChatCommands\VoteObject.cs" />
     <Compile Include="ChatCommands\VotePlugin.cs" />
     <Compile Include="ChatCommands\Voting\SimulcastVote.cs" />
