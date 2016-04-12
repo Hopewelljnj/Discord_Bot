@@ -324,7 +324,7 @@ namespace Discord_Bot
             if (Tools.GetPerms(e, e.User) >= 100)
             {
                 string PathToLogFile = "../LocalFiles/Log.txt";
-                await Tools.Reply(e, "Pausing");
+                await e.User.SendMessage("Pausing");
                 string text = DateTime.Now.ToString("HH:mm:ss tt") + " : User : " + e.User.ToString() + " : " + e.ArgText;
                 Tools.SaveFile(text, PathToLogFile , true);
                 Console.WriteLine(text);

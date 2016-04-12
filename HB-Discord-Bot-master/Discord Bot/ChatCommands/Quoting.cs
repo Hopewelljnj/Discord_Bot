@@ -123,7 +123,7 @@ namespace Discord_Bot
                 string quoteString2 = quoteString.Replace("|", "");
                 quoteString2 = quoteString2.Replace("\r", "");
                 quoteString2 = quoteString2.Replace("\n", "");
-                if (quoteString == "") { continue; }
+                if (quoteString2 == "") { continue; }
 
                 string[] splits = quoteString2.Split(',');
                 if (!uint.TryParse(splits[1], out quoteIDTest)) { await Tools.Reply(e, "Error with Quote document. Contacting developer.");await e.Server.GetUser(146275186142871552).SendMessage("Error with Quote Document Bad ID"); }
