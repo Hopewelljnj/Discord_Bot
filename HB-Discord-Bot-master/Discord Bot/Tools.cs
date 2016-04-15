@@ -534,7 +534,7 @@ namespace Discord_Bot
 
         public static Func<CommandArgs, Task> ReadChannel = async e =>
         {
-            string message = e.ArgText;
+            string message = e.User.Name + " : " + e.ArgText + " @ " + e.Message.Timestamp;
             string PathToChannel = "../ LocalFiles / PriChannel.json";
             Tools.SaveFile(message, PathToChannel, true);
         };

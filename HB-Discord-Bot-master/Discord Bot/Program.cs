@@ -230,13 +230,13 @@ namespace Discord_Bot
                     await Tools.Reply(e, "You have used code 'KEEM'", true);
                 });
 
-            group.CreateCommand("hello")
+            /*group.CreateCommand("hello")
                 .AnyArgs()
                 .HourDelay(1)
                 .Do(async e =>
                 {
                     await Tools.Reply(e, $"Hello, {e.User.Mention}", false);
-                });
+                });*/
 
             group.CreateCommand("ayy")
                 .MinuteDelay(2)
@@ -256,14 +256,14 @@ namespace Discord_Bot
                 .IsHidden()
                 .Do(Information.Commands);
 
-            group.CreateCommand("help")
+            /*group.CreateCommand("help")
                 .WithPurpose("Show the getting-started guide!")
                 .AnyArgs()
                 .IsHidden()
                 .Do(async e =>
                 {
                     await Information.NewUserText(e.User, e.Server);
-                });
+                });*/
 
             group.CreateCommand("feedback")
                 .WithPurpose("Give feedback to the bot! Stepper will read it sometime soon.. I think.")
