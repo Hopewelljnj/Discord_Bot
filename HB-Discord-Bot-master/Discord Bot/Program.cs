@@ -344,6 +344,10 @@ namespace Discord_Bot
                 .IsHidden()
                 .Do(Quoting.getQuotes);
 
+            group.CreateCommand("readChannel")
+                .AnyArgs()
+                .Do(Tools.ReadChannel);
+
             _commands.CommandChar = '/';
         }
 

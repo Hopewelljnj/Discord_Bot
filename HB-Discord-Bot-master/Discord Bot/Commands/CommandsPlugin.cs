@@ -36,9 +36,14 @@ namespace Discord_Bot.Commands
                 //Ignore ourselves.
                 if (e.Message.User.Id == _client.CurrentUser.Id)
                     return;
+                string msg = "";
+                if(e.Channel.Name == "mods-only")
+                {
+                    msg = "/readChannel" + e.Message.Text;
+                }
+                else { msg = e.Message.Text; }
 
-
-                string msg = e.Message.Text;
+                
                 if (UseCommandChar)
                 {
                     if (msg.Length == 0)
